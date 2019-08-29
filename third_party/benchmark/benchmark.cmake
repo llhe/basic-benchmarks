@@ -13,9 +13,9 @@ if(MSVC)
     "${BENCHMARK_INSTALL_DIR}/lib/benchmark_main.lib" CACHE FILEPATH "benchmark main libraries." FORCE)
 else(MSVC)
   set(BENCHMARK_LIBRARIES
-    "${BENCHMARK_INSTALL_DIR}/lib/libbenchmark.a" CACHE FILEPATH "benchmark libraries." FORCE)
+    "${BENCHMARK_INSTALL_DIR}/lib${LIBSUFFIX}/libbenchmark.a" CACHE FILEPATH "benchmark libraries." FORCE)
   set(BENCHMARK_MAIN_LIBRARIES
-    "${BENCHMARK_INSTALL_DIR}/lib/libbenchmark_main.a" CACHE FILEPATH "benchmark main libraries." FORCE)
+    "${BENCHMARK_INSTALL_DIR}/lib${LIBSUFFIX}/libbenchmark_main.a" CACHE FILEPATH "benchmark main libraries." FORCE)
 endif(MSVC)
 
 set(BENCHMARK_URL  "https://github.com/google/benchmark/archive/v1.5.0.zip")
