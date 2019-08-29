@@ -1,0 +1,48 @@
+include(ExternalProject)
+
+set(BENCHMARK_SOURCES_DIR ${NNSERV_THIRD_PARTY_DIR}/benchmark)
+set(BENCHMARK_INSTALL_DIR ${NNSERV_THIRD_PARTY_DIR}/install/benchmark)
+set(BENCHMARK_INCLUDE_DIR "${BENCHMARK_INSTALL_DIR}/include" CACHE PATH "benchmark include directory." FORCE)
+
+include_directories(SYSTEM ${BENCHMARK_INCLUDE_DIR})
+
+if(MSVC)
+  set(BENCHMARK_LIBRARIES
+    "${BENCHMARK_INSTALL_DIR}/lib/benchmark.lib" CACHE FILEPATH "benchmark libraries." FORCE)
+  set(BENCHMARK_MAIN_LIBRARIES
+    "${BENCHMARK_INSTALL_DIR}/lib/benchmark_main.lib" CACHE FILEPATH "benchmark main libraries." FORCE)
+else(MSVC)
+  set(BENCHMARK_LIBRARIES
+    "${BENCHMARK_INSTALL_DIR}/lib/libbenchmark.a" CACHE FILEPATH "benchmark libraries." FORCE)
+  set(BENCHMARK_MAIN_LIBRARIES
+    "${BENCHMARK_INSTALL_DIR}/lib/libbenchmark_main.a" CACHE FILEPATH "benchmark main libraries." FORCE)
+endif(MSVC)
+
+set(BENCHMARK_URL  "https://github.com/google/benchmark/archive/v1.5.0.zip")
+set(BENCHMARK_HASH "SHA256=2d22dd3758afee43842bb504af1a8385cccb3ee1f164824e4837c1c1b04d92a0")
+
+ExternalProject_Add(
+  extern_benchmark
+  URL_HASH         "${BENCHMARK_HASH}"
+  URL              "${BENCHMARK_URL}"
+  PREFIX           ${BENCHMARK_SOURCES_DIR}
+  UPDATE_COMMAND   ""
+  BUILD_BYPRODUCTS ${BENCHMARK_LIBRARIES} ${BENCHMARK_MAIN_LIBRARIES}
+  CMAKE_ARGS       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+  -DCMAKE_CXX_COMPILER_LAUNCHER=${CMAKE_CXX_COMPILER_LAUNCHER}
+  -DCMAKE_C_COMPILER_LAUNCHER=${CMAKE_C_COMPILER_LAUNCHER}
+  -DCMAKE_C_GLAGS=${CMAKE_C_FLAGS}
+  -DCMAKE_CXX_GLAGS=${CMAKE_CXX_FLAGS}
+  -DCMAKE_INSTALL_PREFIX=${BENCHMARK_INSTALL_DIR}
+  -DBENCHMARK_ENABLE_GTEST_TESTS=OFF
+  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+  -DCMAKE_GENERATOR=${CMAKE_GENERATOR}
+  )
+
+add_library(benchmark STATIC IMPORTED GLOBAL)
+set_property(TARGET benchmark PROPERTY IMPORTED_LOCATION ${BENCHMARK_LIBRARIES})
+add_dependencies(benchmark extern_benchmark)
+
+add_library(benchmark_main STATIC IMPORTED GLOBAL)
+set_property(TARGET benchmark_main PROPERTY IMPORTED_LOCATION ${BENCHMARK_MAIN_LIBRARIES})
+add_dependencies(benchmark_main extern_benchmark)
