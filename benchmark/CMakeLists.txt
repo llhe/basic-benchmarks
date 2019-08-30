@@ -7,4 +7,7 @@ add_executable(benchmark_bin
   string/string_benchmark.cc
   queue/queue_benchmark.cc
 )
-target_link_libraries(benchmark_bin benchmark_main benchmark pthread)
+
+target_link_libraries(benchmark_bin
+  absl::base absl::synchronization absl::strings
+  benchmark_main benchmark pthread)

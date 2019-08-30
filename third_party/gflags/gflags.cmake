@@ -1,7 +1,7 @@
 INCLUDE(ExternalProject)
 
-set(GFLAGS_SRCS_DIR    "${NNSERV_THIRD_PARTY_DIR}/gflags")
-set(GFLAGS_INSTALL_DIR "${NNSERV_THIRD_PARTY_DIR}/install/gflags")
+set(GFLAGS_SRCS_DIR    "${BASIC_BENCHMARK_THIRD_PARTY_DIR}/gflags")
+set(GFLAGS_INSTALL_DIR "${BASIC_BENCHMARK_THIRD_PARTY_DIR}/install/gflags")
 set(GFLAGS_INCLUDE_DIR "${GFLAGS_INSTALL_DIR}/include" CACHE PATH "gflags include directory." FORCE)
 
 if(MSVC)
