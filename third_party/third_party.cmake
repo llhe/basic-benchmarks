@@ -1,4 +1,5 @@
 set(BASIC_BENCHMARK_THIRD_PARTY_DIR "${PROJECT_BINARY_DIR}/third_party" CACHE STRING "Third party libraries download & build directories.")
+set(BASIC_BENCHMARK_THIRD_PARTY_SRC_DIR "${PROJECT_SOURCE_DIR}/third_party" CACHE STRING "Third party libraries source directories.")
 
 get_property(LIB64 GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS)
 if ("${LIB64}" STREQUAL "TRUE")
